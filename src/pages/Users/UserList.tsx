@@ -1,4 +1,4 @@
-import { StarBorder } from "@mui/icons-material";
+import { ExpandLess, ExpandMore, StarBorder } from "@mui/icons-material";
 import { ListItem, ListItemAvatar, Avatar, ListItemText, Typography, Divider, List, ListItemButton, Collapse, ListItemIcon } from "@mui/material";
 import React, { useState, useEffect, useReducer } from "react";
 import CarService, { User, Vehicle } from "../../services/CarService";
@@ -11,7 +11,7 @@ const VehicleComponent = ({ vehicle }: { vehicle: Vehicle }) => {
 
     return (
         <>
-            <ListItem alignItems="flex-start" >
+            <ListItem alignItems="flex-start" sx={{ pl: 4 }}>
                 <ListItemButton onClick={displayCoordinates(vehicle)}>
                     <ListItemAvatar>
                         <Avatar
@@ -37,7 +37,6 @@ const VehicleComponent = ({ vehicle }: { vehicle: Vehicle }) => {
                     />
                 </ListItemButton>
             </ListItem>
-            <Divider variant="inset" component="li" />
         </>
     );
 }
@@ -66,26 +65,29 @@ const UserComponent = ({ user }: { user: User }): JSX.Element => {
                     </ListItemAvatar>
                     <ListItemText
                         primary={`${user.owner.name} ${user.owner.surname} (${user.vehicles.length})`}
-                        // secondary={
-                        //     <>
-                        //         <Typography
-                        //             sx={{ display: 'inline' }}
-                        //             component="span"
-                        //             variant="body2"
-                        //             color="text.primary"
-                        //         >
-                        //             Vehicles ({user.vehicles.length})
-                        //         </Typography>
-                        //         {" — click to view vehicles"}
-                        //     </>
-                        // }
+                    // secondary={
+                    //     <>
+                    //         <Typography
+                    //             sx={{ display: 'inline' }}
+                    //             component="span"
+                    //             variant="body2"
+                    //             color="text.primary"
+                    //         >
+                    //             Vehicles ({user.vehicles.length})
+                    //         </Typography>
+                    //         {" — click to view vehicles"}
+                    //     </>
+                    // }
                     />
+                    {showVehicles ? <ExpandLess /> : <ExpandMore />}
                 </ListItemButton>
             </ListItem>
             <Collapse in={showVehicles} timeout="auto" unmountOnExit>
-                {user.vehicles.map(vehicle => <VehicleComponent vehicle={vehicle} key={vehicle.vehicleid} />)}
+                <List component="div" disablePadding>
+                    {user.vehicles.map(vehicle => <VehicleComponent vehicle={vehicle} key={vehicle.vehicleid} />)}
+                </List>
             </Collapse>
-            <Divider variant="inset" component="li" />
+            <Divider variant="middle" component="li" />
         </>
     );
 }
@@ -107,7 +109,7 @@ export const UserList = () => {
 
 
     return (
-        <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+        <List sx={{ bgcolor: 'background.paper' }}>
             {users.map(user => <UserComponent user={user} key={user.userid} />)}
         </List>
         /*  {users.map(user =>
