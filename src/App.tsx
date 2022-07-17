@@ -2,7 +2,7 @@ import './App.css';
 
 import Container from '@mui/material/Container';
 import { Grid, Paper } from '@mui/material';
-import UserList from './pages/Users';
+import Users from './pages/Users';
 
 function App() {
 
@@ -11,7 +11,7 @@ function App() {
       <Grid container spacing={3}>
         <Grid item xs={12} md={6} lg={6}>
           <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column', }}>
-            <UserList />
+            <Users />
           </Paper>
         </Grid>
       </Grid>
