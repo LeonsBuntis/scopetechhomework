@@ -36,6 +36,9 @@ interface GetVehicleLocationsResponses {
 
 const GetUsersWithVehicles = async (): Promise<User[]> => {
     const response = await axios.get<GetUsersResponse>('http://mobi.connectedcar360.net/api/?op=list');
+    if (response.status !== 200) {
+        console.log('could not get response');
+    }
 
     return response.data.data.filter(obj => obj && Object.keys(obj).length !== 0);
 }
