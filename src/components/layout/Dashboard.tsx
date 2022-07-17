@@ -17,12 +17,13 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { mainListItems, secondaryListItems } from './listItems';
+import Users from '../../pages/Users';
 
 interface AppBarProps extends MuiAppBarProps {
     open?: boolean;
 }
 
-const drawerWidth: number = 240;
+const drawerWidth: number = 500;
 
 const AppBar = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== 'open',
@@ -59,9 +60,9 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
                     easing: theme.transitions.easing.sharp,
                     duration: theme.transitions.duration.leavingScreen,
                 }),
-                width: theme.spacing(7),
+                width: theme.spacing(0),
                 [theme.breakpoints.up('sm')]: {
-                    width: theme.spacing(9),
+                    width: theme.spacing(0),
                 },
             }),
         },
@@ -74,7 +75,7 @@ type Props = {
     children: JSX.Element
 };
 
-function DashboardContent({children}: Props) {
+function DashboardContent({ children }: Props) {
     const [open, setOpen] = React.useState(true);
     const toggleDrawer = () => {
         setOpen(!open);
@@ -109,13 +110,8 @@ function DashboardContent({children}: Props) {
                             noWrap
                             sx={{ flexGrow: 1 }}
                         >
-                            Dashboard
+                            Car tracker
                         </Typography>
-                        <IconButton color="inherit">
-                            <Badge badgeContent={4} color="secondary">
-                                <NotificationsIcon />
-                            </Badge>
-                        </IconButton>
                     </Toolbar>
                 </AppBar>
                 <Drawer variant="permanent" open={open}>
@@ -133,9 +129,7 @@ function DashboardContent({children}: Props) {
                     </Toolbar>
                     <Divider />
                     <List component="nav">
-                        {mainListItems}
-                        <Divider sx={{ my: 1 }} />
-                        {secondaryListItems}
+                        <Users />
                     </List>
                 </Drawer>
                 <Box

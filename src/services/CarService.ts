@@ -28,8 +28,8 @@ export interface GetUsersResponse {
 
 export interface VehicleLocation {
     vehicleid: string;
-    lat: string;
-    lon: string;
+    lat: number;
+    lon: number;
 }
 
 export interface GetVehicleLocationsResponses {
