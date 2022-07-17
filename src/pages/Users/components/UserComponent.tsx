@@ -11,19 +11,14 @@ export const UserComponent = ({ user }: { user: User }): JSX.Element => {
 
     const [showVehicles, toggleVehicles] = useReducer(prev => !prev, false);
 
-    const handleUserClicked = (userId: number) => () => {
-        toggleVehicles();
-        setUserId(userId);
-    }
-
-    const handleVehicleChanged = (userId: number) => {
+    const handleVehicleChanged = (userId: string) => {
         setUserId(userId);
     }
 
     return (
         <>
             <ListItem alignItems="flex-start" >
-                <ListItemButton onClick={handleUserClicked(user.userid)}>
+                <ListItemButton onClick={toggleVehicles}>
                     <ListItemAvatar>
                         <Avatar
                             alt={`${user.owner.name} ${user.owner.surname}`}

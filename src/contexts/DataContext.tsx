@@ -2,16 +2,16 @@ import { createContext, PropsWithChildren, useContext, useState } from "react";
 import { Vehicle } from "../services/CarService";
 
 export interface DataContextProps {
-    userId: number | undefined,
+    userId: string | undefined,
     vehicle: Vehicle | undefined,
-    setUserId: (userId: number | undefined) => void,
+    setUserId: (userId: string | undefined) => void,
     setVehicle: (vehicle: Vehicle | undefined) => void,
 }
 
 const DataContext = createContext<DataContextProps | undefined>(undefined);
 
 export const DataProvider = (props: PropsWithChildren<{}>) => {
-    const [userId, setUserId] = useState<number | undefined>(undefined);
+    const [userId, setUserId] = useState<string | undefined>(undefined);
     const [vehicle, setVehicle] = useState<Vehicle | undefined>(undefined);
 
     return <DataContext.Provider value={{ userId, vehicle, setUserId, setVehicle }} {...props} />;

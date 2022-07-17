@@ -5,7 +5,7 @@ export interface Vehicle {
     foto: string;
     make: string;
     model: string;
-    vehicleid: number;
+    vehicleid: string;
     vin: string;
     year: number;
 }
@@ -17,21 +17,23 @@ export interface Owner {
 }
 
 export interface User {
-    userid: number;
+    userid: string;
     owner: Owner;
     vehicles: Vehicle[];
 }
 
-interface GetUsersResponse {
+export interface GetUsersResponse {
     data: User[];
 }
 
-export interface VehicleLocations {
-
+export interface VehicleLocation {
+    vehicleid: string;
+    lat: string;
+    lon: string;
 }
 
-interface GetVehicleLocationsResponses {
-    data: VehicleLocations;
+export interface GetVehicleLocationsResponses {
+    data: VehicleLocation[];
 }
 
 const GetUsersWithVehicles = async (): Promise<User[]> => {
@@ -43,10 +45,13 @@ const GetUsersWithVehicles = async (): Promise<User[]> => {
     return response.data.data.filter(obj => obj && Object.keys(obj).length !== 0);
 }
 
-const GetVehicleLocations = async (userId: string): Promise<VehicleLocations> => {
+const GetVehicleLocations = async (userId: string): Promise<VehicleLocation[]> => {
     const response = await axios.get<GetVehicleLocationsResponses>(`http://mobi.connectedcar360.net/api/?op=getlocations&userid=${userId}`);
+    if (response.status !== 200) {
+        console.log('could not get response');
+    }
 
-    return response.data;
+    return response.data.data;
 };
 
 export default {
