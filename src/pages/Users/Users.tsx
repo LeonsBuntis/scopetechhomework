@@ -1,10 +1,9 @@
 import { List } from "@mui/material";
 import { useState, useEffect } from "react";
-import CarService, { User } from "../../services/CarService";
+import CarService, { User, Vehicle } from "../../services/CarService";
 import { UserComponent } from "./components/UserComponent";
 
 export const Users = () => {
-
     const [users, setUsers] = useState<User[] | []>([]);
 
     useEffect(() => {
