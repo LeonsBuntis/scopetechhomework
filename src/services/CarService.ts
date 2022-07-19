@@ -8,6 +8,8 @@ export interface Vehicle {
     vehicleid: string;
     vin: string;
     year: number;
+
+    location: VehicleLocation | undefined;
 }
 
 export interface Owner {

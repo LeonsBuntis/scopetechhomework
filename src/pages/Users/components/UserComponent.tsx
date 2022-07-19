@@ -9,44 +9,38 @@ export const UserComponent = ({ user }: { user: User }): JSX.Element => {
 
     const { setUserId } = useDataProvider();
 
-    const [showVehicles, toggleVehicles] = useReducer(prev => !prev, false);
+    const [showVehicles, toggleVehicles] = useReducer(prev => !prev, true);
 
     const handleVehicleChanged = (userId: string) => {
         setUserId(userId);
     }
 
+    const selectUser = (userId: string) => () => {
+        setUserId(userId);
+        // toggleVehicles();
+    }
+
     return (
         <>
             <ListItem alignItems="flex-start" >
-                <ListItemButton onClick={toggleVehicles}>
+                <ListItemButton onClick={selectUser(user.userid)}>
                     <ListItemAvatar>
                         <Avatar
                             alt={`${user.owner.name} ${user.owner.surname}`}
                             src={user.owner.foto}
                         />
                     </ListItemAvatar>
-                    <ListItemText
-                        primary={`${user.owner.name} ${user.owner.surname} (${user.vehicles.length})`}
-                    // secondary={
-                    //     <>
-                    //         <Typography
-                    //             sx={{ display: 'inline' }}
-                    //             component="span"
-                    //             variant="body2"
-                    //             color="text.primary"
-                    //         >
-                    //             Vehicles ({user.vehicles.length})
-                    //         </Typography>
-                    //         {" — click to view vehicles"}
-                    //     </>
-                    // }
-                    />
-                    {showVehicles ? <ExpandLess /> : <ExpandMore />}
+                    <ListItemText primary={`${user.owner.name} ${user.owner.surname} (${user.vehicles.length})`} />
+                    {
+                        showVehicles
+                            ? <ExpandLess />
+                            : <ExpandMore />
+                    }
                 </ListItemButton>
             </ListItem>
             <Collapse in={showVehicles} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
-                    {user.vehicles.map(vehicle => <VehicleComponent vehicleChanged={() => handleVehicleChanged(user.userid)} vehicle={vehicle} key={vehicle.vehicleid} />)}
+                    {user.vehicles.map(vehicle => <VehicleComponent vehicleChanged={() => {}} vehicle={vehicle} key={vehicle.vehicleid} />)}
                 </List>
             </Collapse>
             <Divider variant="middle" component="li" />
