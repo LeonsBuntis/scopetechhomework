@@ -9,7 +9,7 @@ export interface Vehicle {
     vin: string;
     year: number;
 
-    location: VehicleLocation | undefined;
+    location: VehicleLocation;
 }
 
 export interface Owner {

@@ -1,43 +1,46 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDataProvider } from "../../contexts/DataContext";
-import CarService, { User, Vehicle, VehicleLocation } from "../../services/CarService";
-import { MapContainer, Marker, Popup, TileLayer, useMap } from 'react-leaflet';
-import L, { LatLngBoundsExpression, LatLngTuple } from "leaflet";
-import RoomIcon from '@mui/icons-material/Room';
+import { Vehicle, VehicleLocation } from "../../services/CarService";
+import { Marker, Tooltip } from 'react-leaflet';
+import L from "leaflet";
 import { renderToString } from 'react-dom/server';
-import Icon from '@mui/material/Icon';
 
 import './CarMarker.css';
+import CarTooltip from "./CarTooltip";
 
 const CarMarker = ({ vehicle }: {
     vehicle: Vehicle
 }) => {
 
+    const { vehicleId } = useDataProvider();
+
     const location = vehicle.location as VehicleLocation;
 
-    const initIcon = L.divIcon({
-        html: renderToString(<span className="material-icons" style={{color: vehicle.color, fontSize: 60}} aria-hidden="true">room</span>),
-        iconAnchor: [0, 0],
-        popupAnchor: [6, -43],
-        className: "custom-icon-wrapper"
-    });
-
-    const [divIcon, setDivIcon] = useState<L.DivIcon>(initIcon);
-    
-    useEffect(() => {
-        const newIcon = L.divIcon({
-            html: renderToString(<span className="material-icons" style={{color: vehicle.color, fontSize: 60}} aria-hidden="true">room</span>),
+    const createDivIcon = (color:string) => {
+        return L.divIcon({
+            html: renderToString(<span className="material-icons" style={{ color: color, fontSize: 60 }} aria-hidden="true">room</span>),
             iconAnchor: [0, 0],
             popupAnchor: [6, -43],
+            tooltipAnchor: [6, -43],
             className: "custom-icon-wrapper"
         });
+    }
+
+    const [divIcon, setDivIcon] = useState<L.DivIcon>(createDivIcon(vehicle.color));
+
+    useEffect(() => {
+        const newIcon = createDivIcon(vehicle.color);
         setDivIcon(newIcon);
+
+        console.log('rerender?');
+
     }, [vehicle]);
 
     return <Marker position={[location.lat, location.lon]} icon={divIcon}>
-        <Popup>
-            {location.vehicleid}
-        </Popup>
+        {
+            vehicleId === vehicle.vehicleid &&
+            <CarTooltip vehicle={vehicle}/>
+        }
     </Marker>
 };
 

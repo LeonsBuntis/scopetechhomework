@@ -3,12 +3,11 @@ import { GetColorName } from "hex-color-to-color-name";
 import { useDataProvider } from "../../../contexts/DataContext";
 import { Vehicle } from "../../../services/CarService";
 
-export const VehicleComponent = ({ vehicle, vehicleChanged }: { vehicle: Vehicle, vehicleChanged: () => void }) => {
-    const { setVehicle } = useDataProvider();
+export const VehicleComponent = ({ vehicle }: { vehicle: Vehicle}) => {
+    const { setVehicleId } = useDataProvider();
 
     const handleVehicleClicked = (vehicle: Vehicle) => () => {
-        setVehicle(vehicle);
-        vehicleChanged();
+        setVehicleId(vehicle.vehicleid);
     }
 
     return (
@@ -17,7 +16,7 @@ export const VehicleComponent = ({ vehicle, vehicleChanged }: { vehicle: Vehicle
                 <ListItemButton onClick={handleVehicleClicked(vehicle)}>
                     <ListItemAvatar>
                         <Avatar
-                            alt={`${vehicle.make} ${vehicle.model}`}
+                            alt={`${vehicle.make} ${vehicle.model} ${GetColorName(vehicle.color)}`}
                             src={vehicle.foto}
                         />
                     </ListItemAvatar>

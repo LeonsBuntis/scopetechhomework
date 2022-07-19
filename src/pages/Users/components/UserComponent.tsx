@@ -40,7 +40,7 @@ export const UserComponent = ({ user }: { user: User }): JSX.Element => {
             </ListItem>
             <Collapse in={showVehicles} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
-                    {user.vehicles.map(vehicle => <VehicleComponent vehicleChanged={() => {}} vehicle={vehicle} key={vehicle.vehicleid} />)}
+                    {user.vehicles.map(vehicle => <VehicleComponent vehicle={vehicle} key={vehicle.vehicleid} />)}
                 </List>
             </Collapse>
             <Divider variant="middle" component="li" />

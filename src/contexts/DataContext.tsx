@@ -3,18 +3,18 @@ import CarService, { User, Vehicle, VehicleLocation } from "../services/CarServi
 
 export interface DataContextProps {
     userId: string | undefined,
-    vehicle: Vehicle | undefined,
+    vehicleId: string | undefined,
     users: User[] | undefined,
     vehicles: Vehicle[] | undefined,
     setUserId: (userId: string | undefined) => void,
-    setVehicle: (vehicle: Vehicle | undefined) => void,
+    setVehicleId: (vehicleId: string | undefined) => void,
 }
 
 const DataContext = createContext<DataContextProps | undefined>(undefined);
 
 export const DataProvider = (props: PropsWithChildren<{}>) => {
     const [userId, setUserId] = useState<string | undefined>(undefined);
-    const [vehicle, setVehicle] = useState<Vehicle | undefined>(undefined);
+    const [vehicleId, setVehicleId] = useState<string | undefined>(undefined);
 
     const [users, setUsers] = useState<User[] | undefined>(undefined);
     const [locations, setLocations] = useState<VehicleLocation[] | undefined>(undefined);
@@ -42,6 +42,10 @@ export const DataProvider = (props: PropsWithChildren<{}>) => {
             }
             const vehiclesToDisplay: Vehicle[] = [];
             locations.forEach(location => {
+                if(!location.lat || !location.lon){
+                    return;
+                }
+
                 const v = user.vehicles.find(vehicle => vehicle.vehicleid === location.vehicleid);
                 if (v) {
                     vehiclesToDisplay.push({ ...v, location: location });
@@ -60,7 +64,7 @@ export const DataProvider = (props: PropsWithChildren<{}>) => {
     }, [userId])
 
 
-    return <DataContext.Provider value={{ userId, vehicle, users, vehicles, setUserId, setVehicle }} {...props} />;
+    return <DataContext.Provider value={{ userId, vehicleId, users, vehicles, setUserId, setVehicleId }} {...props} />;
 }
 
 export const useDataProvider = (): DataContextProps => {
