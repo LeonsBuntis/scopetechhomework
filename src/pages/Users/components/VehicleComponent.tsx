@@ -3,16 +3,20 @@ import { GetColorName } from "hex-color-to-color-name";
 import { useDataProvider } from "../../../contexts/DataContext";
 import { Vehicle } from "../../../services/CarService";
 
-export const VehicleComponent = ({ vehicle }: { vehicle: Vehicle}) => {
-    const { setVehicleId } = useDataProvider();
+export const VehicleComponent = ({ vehicle, vehicleSelected }: { 
+    vehicle: Vehicle,
+    vehicleSelected: () => void
+}) => {
+    const { vehicleId, setVehicleId } = useDataProvider();
 
     const handleVehicleClicked = (vehicle: Vehicle) => () => {
         setVehicleId(vehicle.vehicleid);
+        vehicleSelected();
     }
 
     return (
         <>
-            <ListItem alignItems="flex-start" sx={{ pl: 4 }}>
+            <ListItem alignItems="flex-start" sx={{ pl: 4 }} selected={vehicleId === vehicle.vehicleid}>
                 <ListItemButton onClick={handleVehicleClicked(vehicle)}>
                     <ListItemAvatar>
                         <Avatar

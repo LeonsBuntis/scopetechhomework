@@ -7,7 +7,7 @@ import { VehicleComponent } from "./VehicleComponent";
 
 export const UserComponent = ({ user }: { user: User }): JSX.Element => {
 
-    const { setUserId } = useDataProvider();
+    const { userId, setUserId, setVehicleId } = useDataProvider();
 
     const [showVehicles, toggleVehicles] = useReducer(prev => !prev, true);
 
@@ -17,12 +17,17 @@ export const UserComponent = ({ user }: { user: User }): JSX.Element => {
 
     const selectUser = (userId: string) => () => {
         setUserId(userId);
+        setVehicleId(undefined);
         // toggleVehicles();
+    }
+
+    const vehicleSelected = (userId: string) => {
+        setUserId(userId);
     }
 
     return (
         <>
-            <ListItem alignItems="flex-start" >
+            <ListItem alignItems="flex-start" selected={userId === user.userid}>
                 <ListItemButton onClick={selectUser(user.userid)}>
                     <ListItemAvatar>
                         <Avatar
@@ -40,7 +45,7 @@ export const UserComponent = ({ user }: { user: User }): JSX.Element => {
             </ListItem>
             <Collapse in={showVehicles} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
-                    {user.vehicles.map(vehicle => <VehicleComponent vehicle={vehicle} key={vehicle.vehicleid} />)}
+                    {user.vehicles.map(vehicle => <VehicleComponent vehicleSelected={() => vehicleSelected(user.userid)} vehicle={vehicle} key={vehicle.vehicleid} />)}
                 </List>
             </Collapse>
             <Divider variant="middle" component="li" />

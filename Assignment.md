@@ -53,7 +53,8 @@ browsers need to be supported, i.e. IE9 and IE10 support is not a requirement
 * Use browser facilities for persistent data storage, e.g. local storage
 * You may use public OpenStreetMaps map tiles sources, and publicly available OpenStreetMaps services for
 reverse geocoding (http://wiki.openstreetmap.org/wiki/Nominatim)
-Desired non-functional attributes
+
+## Desired non-functional attributes
 * Clean code and logic will be highly valued
 * Well-considered project structure, consistent with chosen framework conventions will be highly valued
 * Attention paid to UI will be appreciated
