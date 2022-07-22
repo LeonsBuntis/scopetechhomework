@@ -25,10 +25,10 @@ const CarTooltip = ({ vehicle }: {
     }, [vehicle]);
 
     return <Popup>
-        <Card variant="outlined" sx={{ maxWidth: 350, border: 0, borderRadius: 0, marginTop: '1rem' }}>
+        <Card variant="outlined" sx={{ maxWidth: 250, border: 0, borderRadius: 0, marginTop: '1rem' }}>
             <CardMedia
                 component="img"
-                height="250"
+                height="150"
                 image={vehicle.foto}
                 alt={`${vehicle.make} ${vehicle.model} ${vehicle.year} ${GetColorName(vehicle.color)}`}
             />
