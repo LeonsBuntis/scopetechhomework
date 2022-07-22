@@ -1,22 +1,22 @@
 import { ListItem, ListItemButton, ListItemAvatar, Avatar, ListItemText, Typography } from "@mui/material";
 import { GetColorName } from "hex-color-to-color-name";
-import { useDataProvider } from "../../../contexts/DataContext";
-import { Vehicle } from "../../../services/CarService";
+import { useNavigate } from "react-router-dom";
+import { useDataProvider } from "../../../../contexts/DataContext";
+import { Vehicle } from "../../../../services/CarService";
 
-export const VehicleComponent = ({ vehicle, vehicleSelected }: { 
-    vehicle: Vehicle,
-    vehicleSelected: () => void
+export const VehicleListItem = ({ vehicle }: { 
+    vehicle: Vehicle
 }) => {
-    const { vehicleId, setVehicleId } = useDataProvider();
+    
+    const navigate = useNavigate();
 
     const handleVehicleClicked = (vehicle: Vehicle) => () => {
-        setVehicleId(vehicle.vehicleid);
-        vehicleSelected();
+        navigate(`${vehicle.vehicleid}`);
     }
 
     return (
         <>
-            <ListItem alignItems="flex-start" sx={{ pl: 4 }} selected={vehicleId === vehicle.vehicleid}>
+            <ListItem alignItems="flex-start" sx={{ pl: 4 }}>
                 <ListItemButton onClick={handleVehicleClicked(vehicle)}>
                     <ListItemAvatar>
                         <Avatar

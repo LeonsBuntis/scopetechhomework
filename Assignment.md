@@ -18,8 +18,7 @@ Create a web based SPA (single page application) for displaying users and their 
 
 ### The application should support the following workflow:
 * When the application is opened, it should display the list of users in the list view.
-    * The list item should also include the number of user vehicles and may contain other available
-information that makes it easier to work with the data.
+    * The list item should also include the number of user vehicles and may contain other available information that makes it easier to work with the data.
 
 *  When a user item from the list is selected:
     * The list of user vehicles is displayed and

@@ -1,18 +1,19 @@
 import { useEffect, useState } from "react";
-import { useDataProvider } from "../../contexts/DataContext";
-import { Vehicle, VehicleLocation } from "../../services/CarService";
+import { useDataProvider } from "../../../contexts/DataContext";
+import { Vehicle, VehicleLocation } from "../../../services/CarService";
 import { Marker, Tooltip } from 'react-leaflet';
 import L from "leaflet";
 import { renderToString } from 'react-dom/server';
 
 import './CarMarker.css';
 import CarTooltip from "./CarTooltip";
+import { useParams } from "react-router-dom";
 
 const CarMarker = ({ vehicle }: {
     vehicle: Vehicle
 }) => {
 
-    const { vehicleId } = useDataProvider();
+    const { vehicleId } = useParams();
 
     const location = vehicle.location as VehicleLocation;
 
@@ -38,7 +39,8 @@ const CarMarker = ({ vehicle }: {
 
     return <Marker position={[location.lat, location.lon]} icon={divIcon}>
         {
-            vehicleId === vehicle.vehicleid &&
+            vehicleId && 
+            Number(vehicleId) === vehicle.vehicleid &&
             <CarTooltip vehicle={vehicle}/>
         }
     </Marker>
