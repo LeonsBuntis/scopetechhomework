@@ -1,4 +1,5 @@
 import { createContext, PropsWithChildren, useContext, useEffect, useState } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useMappedParams } from "../hooks/useMappedParams";
 import CarService, { User, Vehicle, VehicleLocation } from "../services/CarService";
 
@@ -19,10 +20,18 @@ export const DataProvider = (props: PropsWithChildren<{}>) => {
 
     const [users, setUsers] = useState<User[] | undefined>(undefined);
     const [locations, setLocations] = useState<VehicleLocation[] | undefined>(undefined);
-
     const [vehicles, setVehicles] = useState<Vehicle[] | undefined>(undefined);
 
     const params = useMappedParams();
+    useEffect(() => {
+        setCurrentUserId(params.userId);
+        setCurrentVehicleId(params.vehicleId);
+    }, [params]);
+
+    const location = useLocation();
+    useEffect(() => {
+        console.log(location);
+    }, [location]);
 
     const findUser = (users: User[] | undefined, userId: number | undefined) => {
         return users?.find(u => u.userid == userId);
@@ -57,9 +66,6 @@ export const DataProvider = (props: PropsWithChildren<{}>) => {
     useEffect(() => {
         const loadLocations = async (userId: number) => {
             const locations = await CarService.GetVehicleLocations(userId);
-            console.log(`loaded locations`);
-            console.log(locations);
-            
             if (!locations) {
                 throw new Error("couldn't load locations");
             }

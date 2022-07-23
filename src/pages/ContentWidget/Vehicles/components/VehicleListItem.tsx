@@ -1,23 +1,30 @@
-import { ListItem, ListItemButton, ListItemAvatar, Avatar, ListItemText, Typography } from "@mui/material";
+import { ListItem, ListItemButton, ListItemAvatar, Avatar, ListItemText, Typography, Link } from "@mui/material";
 import { GetColorName } from "hex-color-to-color-name";
 import { useNavigate } from "react-router-dom";
 import { useDataProvider } from "../../../../contexts/DataContext";
 import { Vehicle } from "../../../../services/CarService";
 
-export const VehicleListItem = ({ vehicle }: { 
+export const VehicleListItem = ({ vehicle }: {
     vehicle: Vehicle
 }) => {
-    
+
     const navigate = useNavigate();
+    const { currentVehicle, setCurrentVehicleId } = useDataProvider();
 
     const handleVehicleClicked = (vehicle: Vehicle) => () => {
-        navigate(`${vehicle.vehicleid}`);
+        if (!currentVehicle) {
+            navigate(`${vehicle.vehicleid}`);
+        } else if (currentVehicle.vehicleid === vehicle.vehicleid) {
+            return;
+        } else {
+            navigate(`..`);
+        }
     }
 
     return (
         <>
             <ListItem alignItems="flex-start" sx={{ pl: 4 }}>
-                <ListItemButton onClick={handleVehicleClicked(vehicle)}>
+                <ListItemButton onClick={handleVehicleClicked(vehicle)} selected={currentVehicle?.vehicleid === vehicle.vehicleid}>
                     <ListItemAvatar>
                         <Avatar
                             alt={`${vehicle.make} ${vehicle.model} ${GetColorName(vehicle.color)}`}

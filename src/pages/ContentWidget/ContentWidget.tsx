@@ -20,10 +20,6 @@ const ContentWidget = () => {
             borderRadius: 1,
             p: 2
         }}>
-            <Box>
-                <Button variant="text" onClick={() => navigate(-1)}><ChevronLeftIcon />Back</Button>
-            </Box>
-
             <Outlet />
         </Stack >
     </Container>

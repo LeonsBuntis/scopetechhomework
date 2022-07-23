@@ -7,17 +7,16 @@ import { renderToString } from 'react-dom/server';
 
 import './CarMarker.css';
 import CarTooltip from "./CarTooltip";
-import { useParams } from "react-router-dom";
 
 const CarMarker = ({ vehicle }: {
     vehicle: Vehicle
 }) => {
 
-    const { vehicleId } = useParams();
+    const { currentVehicle, setCurrentVehicleId } = useDataProvider();
 
     const location = vehicle.location as VehicleLocation;
 
-    const createDivIcon = (color:string) => {
+    const createDivIcon = (color: string, selected: boolean = false) => {
         return L.divIcon({
             html: renderToString(<span className="material-icons" style={{ color: color, fontSize: 60 }} aria-hidden="true">room</span>),
             iconAnchor: [0, 0],
@@ -32,16 +31,21 @@ const CarMarker = ({ vehicle }: {
     useEffect(() => {
         const newIcon = createDivIcon(vehicle.color);
         setDivIcon(newIcon);
-
-        console.log('rerender?');
-
     }, [vehicle]);
 
-    return <Marker position={[location.lat, location.lon]} icon={divIcon}>
+    return <Marker
+        position={[location.lat, location.lon]}
+        icon={divIcon}
+        eventHandlers={{
+            click: e => {
+                console.log('marker clicked');
+                setCurrentVehicleId(vehicle.vehicleid);
+            }
+        }}>
         {
-            vehicleId && 
-            Number(vehicleId) === vehicle.vehicleid &&
-            <CarTooltip vehicle={vehicle}/>
+            currentVehicle &&
+            currentVehicle.vehicleid === vehicle.vehicleid &&
+            <CarTooltip vehicle={vehicle} />
         }
     </Marker>
 };

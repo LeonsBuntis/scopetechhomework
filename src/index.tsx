@@ -1,14 +1,16 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import { BrowserRouter } from "react-router-dom";
-
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
+
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App';
+import reportWebVitals from './reportWebVitals';
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import Users from './pages/ContentWidget/Users';
+import Vehicles from './pages/ContentWidget/Vehicles';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -16,7 +18,19 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <App />
+      <Routes>
+        <Route element={<App />}>
+          <Route path="/" element={<Navigate to="users" />} />
+
+          <Route path="users" element={<Users />} />
+          <Route path="users/:userId">
+            <Route path="vehicles" element={<Vehicles />} />
+            <Route path="vehicles/:vehicleId" element={<Vehicles />} />
+          </Route>
+
+          <Route path="*" element={<Navigate to="/" />} />
+        </Route>
+      </Routes>
     </BrowserRouter>
   </React.StrictMode>
 );

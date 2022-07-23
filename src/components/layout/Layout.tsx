@@ -8,11 +8,6 @@ const mdTheme = createTheme();
 const Layout = ({ children }: {
     children: JSX.Element | JSX.Element[] 
 }) => {
-    const [open, setOpen] = useState(true);
-    const toggleDrawer = () => {
-        setOpen(!open);
-    };
-
     return (
         <ThemeProvider theme={mdTheme}>
             <Box sx={{ display: 'flex' }}>
@@ -37,6 +32,5 @@ const Layout = ({ children }: {
         </ThemeProvider>
     );
 }
-
 
 export default Layout;
