@@ -1,4 +1,17 @@
-import axios from "axios";
+import Axios from 'axios';
+import { setupCache } from 'axios-cache-interceptor';
+
+const axios = setupCache(Axios, {
+    ttl: 1000 * 30,
+    cachePredicate: {
+        containsHeaders: {
+            'content-type': (header) => {
+                console.log(header);
+                return header === "application/json";
+            }
+        }
+    }
+});
 
 export interface Vehicle {
     vehicleid: number;
@@ -43,7 +56,7 @@ const GetUsersWithVehicles = async (): Promise<User[]> => {
     if (response.status !== 200) {
         console.log('could not get response');
     }
-    
+
     return response.data.data.filter(obj => obj && Object.keys(obj).length !== 0) as User[];
 }
 
