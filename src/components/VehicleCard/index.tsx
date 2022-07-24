@@ -1,24 +1,24 @@
 import { Card, CardMedia, CardContent, Typography, Divider } from "@mui/material";
 import { GetColorName } from "hex-color-to-color-name";
 import { useState, useEffect } from "react";
-import { useDataProvider } from "../../contexts/DataContext";
-import CarService, { Vehicle, VehicleLocation } from "../../services/CarService";
+import { Vehicle, VehicleLocation } from "../../services/CarService";
 import NominatimService from "../../services/NominatimService/NominatimService";
 
-const VehicleCard = ({ vehicle }: {
-    vehicle: Vehicle
+const VehicleCard = ({ vehicle, location }: {
+    vehicle: Vehicle,
+    location: VehicleLocation
 }) => {
 
     const [locationName, setLocationName] = useState<string>('');
 
     useEffect(() => {
         (async () => {
-            if (!vehicle.location || !vehicle.location.lat || !vehicle.location.lon) {
+            if (!location || !location.lat || !location.lon) {
                 setLocationName('');
                 return;
             }
 
-            const name = await NominatimService.GetLocationName(vehicle.location.lat, vehicle.location.lon);
+            const name = await NominatimService.GetLocationName(location.lat, location.lon);
 
             setLocationName(name);
         })();

@@ -9,5 +9,5 @@ export type Vehicle = {
     vin: string;
     year: number;
 
-    location: VehicleLocation;
+    // location: VehicleLocation;
 }

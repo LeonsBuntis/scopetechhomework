@@ -15,10 +15,12 @@ const VehicleInfo = () => {
         setCurrentUserId(userIdOrUndefined);
         setCurrentVehicleId(vehicleIdOrUndefined);
 
-    }, [ userId, vehicleId]);
+    }, [userId, vehicleId]);
 
     return currentVehicle
-        ? <Box alignContent={"center"} sx={{}}><VehicleCard vehicle={currentVehicle} /></Box>
+        ? <Box alignContent={"center"} sx={{}}>
+            {/* <VehicleCard vehicle={currentVehicle} /> */}
+        </Box>
         : <>Loading</>
 }
 
