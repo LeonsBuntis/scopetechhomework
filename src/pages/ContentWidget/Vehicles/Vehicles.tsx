@@ -8,7 +8,6 @@ import { useCustomNavigate } from "../../../hooks/useCustomNavigate";
 import { useMappedParams } from "../../../hooks/useMappedParams";
 
 const Vehicles = () => {
-
     const { users } = useUserProvider();
     const { userId } = useMappedParams();
     const { navigateToUsers } = useCustomNavigate();
@@ -19,7 +18,7 @@ const Vehicles = () => {
         const user = users?.find(user => user.userid === userId);
 
         setCurrentUser(user);
-    }, [userId]);
+    }, [users, userId]);
 
     return currentUser
         ? <>

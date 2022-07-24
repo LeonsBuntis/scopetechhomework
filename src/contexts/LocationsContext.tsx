@@ -2,6 +2,7 @@ import { useSnackbar } from "notistack";
 import { createContext, PropsWithChildren, useContext, useEffect, useState } from "react";
 import { useMappedParams } from "../hooks/useMappedParams";
 import CarService, { VehicleLocation } from "../services/CarService";
+import { useLoadingProvider } from "./LoadingContext";
 
 export interface LocationContextProps {
     locations: VehicleLocation[] | undefined,
@@ -13,14 +14,18 @@ const LocationContext = createContext<LocationContextProps | undefined>(undefine
 export const LocationProvider = (props: PropsWithChildren<{}>) => {
     const { enqueueSnackbar } = useSnackbar();
     const { userId } = useMappedParams();
+    const { loading, setLoading } = useLoadingProvider();
 
     const [locations, setLocations] = useState<VehicleLocation[] | undefined>(undefined);
-    const [loading, setLoading] = useState<boolean>(false);
 
     useEffect(() => {
         const loadLocations = async (userId: number) => {
+            setLoading(true);
             const locations = await CarService.GetVehicleLocations(userId);
             setLocations(locations);
+            setTimeout(() => {
+                setLoading(false);
+            }, 700);
         };
 
         if (!userId) {

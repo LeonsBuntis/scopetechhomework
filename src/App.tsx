@@ -6,18 +6,21 @@ import Map from './pages/Map';
 import ContentWidget from './pages/ContentWidget/';
 import { SnackbarProvider } from 'notistack';
 import { LocationProvider } from './contexts/LocationsContext';
+import { LoadingProvider } from './contexts/LoadingContext';
 
 function App() {
   return (
     <SnackbarProvider maxSnack={3}>
-      <UserProvider>
-        <LocationProvider>
-          <Layout>
-            <ContentWidget />
-            <Map />
-          </Layout>
-        </LocationProvider>
-      </UserProvider>
+      <LoadingProvider>
+        <UserProvider>
+          <LocationProvider>
+            <Layout>
+              <ContentWidget />
+              <Map />
+            </Layout>
+          </LocationProvider>
+        </UserProvider>
+      </LoadingProvider>
     </SnackbarProvider>
   );
 }
