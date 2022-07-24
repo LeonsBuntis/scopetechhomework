@@ -47,7 +47,7 @@ export const LocationProvider = (props: PropsWithChildren<{}>) => {
         return () => {
             clearInterval(intervalId);
         };
-    }, [userId]);
+    }, [userId, enqueueSnackbar, setLoading]);
 
     return <LocationContext.Provider value={{
         locations,

@@ -46,7 +46,9 @@ const GetVehicleLocations = async (userId: number): Promise<VehicleLocation[]> =
     return response.data.data;
 };
 
-export default {
+const CarService = {
     GetUsersWithVehicles,
     GetVehicleLocations
-}
+};
+
+export default CarService;

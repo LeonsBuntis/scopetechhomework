@@ -11,6 +11,8 @@ const GetLocationName = async (lat: number, lon: number, zoom: number = 18): Pro
     return response.data.display_name;
 }
 
-export default {
+const NominatimService = {
     GetLocationName
 }
+
+export default NominatimService;

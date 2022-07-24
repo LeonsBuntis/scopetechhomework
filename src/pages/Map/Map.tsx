@@ -19,7 +19,7 @@ export const Map = () => {
         const user = users?.find(user => user.userid === userId);
 
         setCurrentUser(user);
-    }, [userId]);
+    }, [userId, users]);
 
     return <Container disableGutters maxWidth={false} sx={{ height: "100vh" }}>
         <VehicleInfo />

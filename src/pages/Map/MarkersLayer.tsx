@@ -36,7 +36,7 @@ const MarkersLayer = ({ currentUser }: {
             map.setView([currentVehicleLocation.lat, currentVehicleLocation.lon], 15);
         }
 
-    }, [locations, vehicleId]);
+    }, [locations, vehicleId, currentUser.vehicles, map]);
 
     return <>{
         locations &&

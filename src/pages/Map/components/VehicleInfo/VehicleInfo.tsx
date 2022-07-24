@@ -15,8 +15,9 @@ export const VehicleInfo = () => {
     const [location, setLocation] = useState<VehicleLocation | undefined>(undefined);
 
     useEffect(() => {
-        if (!vehicleId) {
+        if (!vehicleId || !userId) {
             setVehicle(undefined);
+            setLocation(undefined);
         }
 
         const vehicle = users?.find(u => u.userid === userId)?.vehicles?.find(v => v.vehicleid === vehicleId);
@@ -24,7 +25,7 @@ export const VehicleInfo = () => {
 
         const location = locations?.find(l => l.vehicleid === vehicleId);
         setLocation(location);
-    }, [users, locations, vehicleId]);
+    }, [users, locations, vehicleId, userId]);
 
     return vehicle && location ?
         <Container disableGutters maxWidth="xs" sx={{

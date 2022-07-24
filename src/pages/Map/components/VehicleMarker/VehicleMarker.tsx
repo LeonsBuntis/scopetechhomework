@@ -1,6 +1,6 @@
 import './VehicleMarker.css';
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Marker } from 'react-leaflet';
 import L from "leaflet";
 import { renderToString } from 'react-dom/server';

@@ -35,7 +35,7 @@ export const UserProvider = (props: PropsWithChildren<{}>) => {
         loadUsers();
 
         return () => { };
-    }, []);
+    }, [enqueueSnackbar, setLoading]);
 
     return <UserContext.Provider value={{
         users,
