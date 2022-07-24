@@ -35,9 +35,6 @@ const MarkersLayer = ({ currentUser }: {
         const loadLocations = async (userId: number) => {
             try {
                 const locations = await CarService.GetVehicleLocations(userId);
-
-                console.log('location loaded');
-                
                 setLocations(locations);
             } catch (e: any) {
                 enqueueSnackbar(e.message, { variant: "error" });
