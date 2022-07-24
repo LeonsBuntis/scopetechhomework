@@ -1,13 +1,13 @@
 import { ListItem, ListItemButton, ListItemAvatar, Avatar, ListItemText, Typography } from "@mui/material";
 import { GetColorName } from "hex-color-to-color-name";
-import { useDataProvider } from "../../../../contexts/DataContext";
 import { useCustomNavigate } from "../../../../hooks/useCustomNavigate";
+import { useMappedParams } from "../../../../hooks/useMappedParams";
 import { Vehicle } from "../../../../services/CarService";
 
 export const VehicleListItem = ({ vehicle }: {
     vehicle: Vehicle
 }) => {
-    const { currentVehicleId } = useDataProvider();
+    const { vehicleId } = useMappedParams();
     const { navigateToVehicle } = useCustomNavigate();
 
     const handleVehicleClicked = (vehicle: Vehicle) => () => {
@@ -17,7 +17,7 @@ export const VehicleListItem = ({ vehicle }: {
     return (
         <>
             <ListItem alignItems="flex-start" sx={{ pl: 4 }}>
-                <ListItemButton onClick={handleVehicleClicked(vehicle)} selected={currentVehicleId === vehicle.vehicleid}>
+                <ListItemButton onClick={handleVehicleClicked(vehicle)} selected={vehicleId === vehicle.vehicleid}>
                     <ListItemAvatar>
                         <Avatar
                             alt={`${vehicle.make} ${vehicle.model} ${GetColorName(vehicle.color)}`}

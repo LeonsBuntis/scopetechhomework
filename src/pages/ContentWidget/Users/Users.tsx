@@ -1,9 +1,9 @@
 import { List} from "@mui/material";
-import { useDataProvider } from "../../../contexts/DataContext";
+import { useUserProvider } from "../../../contexts/UserContext";
 import { UserListItem } from "./components/UserListItem";
 
 export const Users = () => {
-    const { users } = useDataProvider();
+    const { users } = useUserProvider();
 
     return (
         <List sx={{ bgcolor: 'background.paper' }}>

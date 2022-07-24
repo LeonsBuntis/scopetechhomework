@@ -1,29 +1,27 @@
 import { useEffect, useState } from "react";
-import { useDataProvider } from "../../contexts/DataContext";
 import CarService, { User, VehicleLocation } from "../../services/CarService";
 import { Popup, useMap, useMapEvents } from 'react-leaflet';
 import { LatLngTuple } from "leaflet";
 import CarMarker from "./components/VehicleMarker";
-import { useSnackbar } from "notistack";
 import VehicleCard from "../../components/VehicleCard";
+import { useMappedParams } from "../../hooks/useMappedParams";
+import { useLocationProvider } from "../../contexts/LocationsContext";
 
 const MarkersLayer = ({ currentUser }: {
     currentUser: User
 }) => {
-    const { enqueueSnackbar } = useSnackbar();
-    const { currentVehicleId } = useDataProvider();
+    const { vehicleId } = useMappedParams();
+    const { locations } = useLocationProvider();
 
     const map = useMap();
     const mapEvents = useMapEvents({});
-
-    const [locations, setLocations] = useState<VehicleLocation[] | undefined>(undefined);
 
     useEffect(() => {
         if (!locations) {
             return;
         }
 
-        const currentVehicle = currentUser.vehicles?.find(vehicle => vehicle.vehicleid === currentVehicleId);
+        const currentVehicle = currentUser.vehicles?.find(vehicle => vehicle.vehicleid === vehicleId);
 
         if (!currentVehicle) {
             if (locations.length > 1) {
@@ -41,30 +39,7 @@ const MarkersLayer = ({ currentUser }: {
             map.setView([currentVehicleLocation.lat, currentVehicleLocation.lon], 15);
         }
 
-    }, [locations, currentVehicleId]);
-
-    useEffect(() => {
-        const loadLocations = async (userId: number) => {
-            const locations = await CarService.GetVehicleLocations(userId);
-            setLocations(locations);
-        };
-
-        loadLocations(currentUser.userid)
-            .catch(e => {
-                enqueueSnackbar(e.message, { variant: "error" });
-            });
-
-        const intervalId = setInterval(() => {
-            loadLocations(currentUser.userid)
-                .catch(e => {
-                    enqueueSnackbar("Couldn't get new location", { variant: "warning" });
-                });
-        }, 1000 * 60);
-
-        return () => {
-            clearInterval(intervalId);
-        };
-    }, [currentUser]);
+    }, [locations, vehicleId]);
 
     return <>{
         locations &&
@@ -80,7 +55,6 @@ const MarkersLayer = ({ currentUser }: {
                     locationLon={location.lon}
                     vehicleId={vehicle.vehicleid} >
                     {
-                        currentVehicleId === vehicle.vehicleid &&
                         <Popup>
                             <VehicleCard vehicle={vehicle} location={location} />
                         </Popup>

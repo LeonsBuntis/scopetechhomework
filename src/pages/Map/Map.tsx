@@ -3,20 +3,22 @@ import 'leaflet/dist/leaflet.css';
 import { MapContainer, TileLayer, ZoomControl } from 'react-leaflet';
 import { Container } from "@mui/material";
 import MarkersLayer from './MarkersLayer';
-import { useDataProvider } from '../../contexts/DataContext';
+import { useUserProvider } from '../../contexts/UserContext';
 import { useEffect, useState } from 'react';
 import { User } from '../../services/CarService';
+import { useMappedParams } from '../../hooks/useMappedParams';
 
 export const Map = () => {
-    const { users, currentUserId } = useDataProvider();
+    const { users } = useUserProvider();
+    const { userId } = useMappedParams();
 
     const [currentUser, setCurrentUser] = useState<User | undefined>(undefined);
 
     useEffect(() => {
-        const user = users?.find(user => user.userid === currentUserId);
+        const user = users?.find(user => user.userid === userId);
 
         setCurrentUser(user);
-    }, [currentUserId]);
+    }, [userId]);
 
     return <Container disableGutters maxWidth={false} sx={{ height: "100vh" }}>
         <MapContainer style={{ height: '100%' }} center={[56.9496, 24.1052]} zoom={12} zoomControl={false}>
