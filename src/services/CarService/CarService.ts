@@ -1,4 +1,4 @@
-import { HttpClient as axios } from '../HttpClient';
+import axios from '../HttpClient';
 import { User } from './types/User';
 import { VehicleLocation } from './types/VehicleLocation';
 
@@ -21,6 +21,7 @@ const GetUsersWithVehicles = async (): Promise<User[]> => {
             }
         }
     });
+
     if (response.status !== 200 || response.headers['content-type'] !== "application/json") {
         throw new Error("Couldn't get user list");
     }
@@ -39,11 +40,12 @@ const GetVehicleLocations = async (userId: number): Promise<VehicleLocation[]> =
             }
         }
     });
+
     if (response.status !== 200 || response.headers['content-type'] !== "application/json") {
         throw new Error("Couldn't get locations");
     }
 
-    return response.data.data;
+    return response.data.data.filter(obj => obj && Object.keys(obj).length !== 0);
 };
 
 const CarService = {

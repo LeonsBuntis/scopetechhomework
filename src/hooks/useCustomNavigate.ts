@@ -10,7 +10,7 @@ export const useCustomNavigate = () => {
     }
 
     const navigateToUser = (userId: number)=> {
-        navigate(`/users/${userId}`);
+        navigate(`/users/${userId}/vehicles`);
     }
 
     const navigateToVehicle = (vehicleId: number) => {

@@ -1,4 +1,4 @@
-import { HttpClient as axios } from '../HttpClient';
+import axios from '../HttpClient';
 
 interface GetLocationNameResponse {
     display_name: string

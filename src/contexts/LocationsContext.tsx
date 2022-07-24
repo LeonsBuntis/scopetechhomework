@@ -22,8 +22,10 @@ export const LocationProvider = (props: PropsWithChildren<{}>) => {
         const loadLocations = async (userId: number) => {
             setLoading(true);
             const locations = await CarService.GetVehicleLocations(userId);
-            setLocations(locations);
+            setLocations(locations.filter(loc => loc.lat && loc.lon));
             setTimeout(() => {
+                console.log('stop loading');
+                
                 setLoading(false);
             }, 700);
         };
