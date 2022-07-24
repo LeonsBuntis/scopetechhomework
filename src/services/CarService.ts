@@ -1,17 +1,7 @@
 import Axios from 'axios';
 import { setupCache } from 'axios-cache-interceptor';
 
-const axios = setupCache(Axios, {
-    ttl: 1000 * 30,
-    cachePredicate: {
-        containsHeaders: {
-            'content-type': (header) => {
-                console.log(header);
-                return header === "application/json";
-            }
-        }
-    }
-});
+const axios = setupCache(Axios);
 
 export interface Vehicle {
     vehicleid: number;
@@ -52,7 +42,16 @@ export interface GetVehicleLocationsResponses {
 }
 
 const GetUsersWithVehicles = async (): Promise<User[]> => {
-    const response = await axios.get<GetUsersResponse>('http://mobi.connectedcar360.net/api/?op=list');
+    const response = await axios.get<GetUsersResponse>('http://mobi.connectedcar360.net/api/?op=list', {
+        cache: {
+            ttl: 1000 * 60 * 5,
+            cachePredicate: {
+                containsHeaders: {
+                    'content-type': (header) => { return header === "application/json"; }
+                }
+            }
+        }
+    });
     if (response.status !== 200) {
         throw new Error("Couldn't get user list");
     }
@@ -61,7 +60,16 @@ const GetUsersWithVehicles = async (): Promise<User[]> => {
 }
 
 const GetVehicleLocations = async (userId: number): Promise<VehicleLocation[]> => {
-    const response = await axios.get<GetVehicleLocationsResponses>(`http://mobi.connectedcar360.net/api/?op=getlocations&userid=${userId}`);
+    const response = await axios.get<GetVehicleLocationsResponses>(`http://mobi.connectedcar360.net/api/?op=getlocations&userid=${userId}`, {
+        cache: {
+            ttl: 1000 * 30,
+            cachePredicate: {
+                containsHeaders: {
+                    'content-type': (header) => { return header === "application/json"; }
+                }
+            }
+        }
+    });
     if (response.status !== 200) {
         throw new Error("Couldn't get locations");
     }
