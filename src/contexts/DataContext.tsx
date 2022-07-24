@@ -2,6 +2,7 @@ import { createContext, PropsWithChildren, useContext, useEffect, useState } fro
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useMappedParams } from "../hooks/useMappedParams";
 import CarService, { User, Vehicle, VehicleLocation } from "../services/CarService";
+import { SnackbarProvider, VariantType, useSnackbar } from 'notistack';
 
 export interface DataContextProps {
     users: User[] | undefined,
@@ -15,6 +16,9 @@ export interface DataContextProps {
 const DataContext = createContext<DataContextProps | undefined>(undefined);
 
 export const DataProvider = (props: PropsWithChildren<{}>) => {
+
+    const { enqueueSnackbar } = useSnackbar();
+
     const [userId, setCurrentUserId] = useState<number | undefined>(undefined);
     const [vehicleId, setCurrentVehicleId] = useState<number | undefined>(undefined);
 
@@ -56,8 +60,12 @@ export const DataProvider = (props: PropsWithChildren<{}>) => {
 
     useEffect(() => {
         (async () => {
-            const response = await CarService.GetUsersWithVehicles();
-            setUsers(response);
+            try {
+                const response = await CarService.GetUsersWithVehicles();
+                setUsers(response);
+            } catch (e: any) {
+                enqueueSnackbar(e.message, {variant: "error"});
+            }
         })();
 
         return () => { };
@@ -65,31 +73,35 @@ export const DataProvider = (props: PropsWithChildren<{}>) => {
 
     useEffect(() => {
         const loadLocations = async (userId: number) => {
-            const locations = await CarService.GetVehicleLocations(userId);
-            if (!locations) {
-                throw new Error("couldn't load locations");
-            }
-            if (!users) {
-                throw new Error("users undefined");
-            }
-            const user = users.find(user => user.userid === userId);
-            if (!user) {
-                throw new Error("Could not find user");
-            }
-            const vehiclesToDisplay: Vehicle[] = [];
-            locations.forEach(location => {
-                if (!location.lat || !location.lon) {
-                    return;
+            try {
+                const locations = await CarService.GetVehicleLocations(userId);
+                if (!locations) {
+                    throw new Error("Couldn't load locations");
                 }
-
-                const v = user.vehicles.find(vehicle => vehicle.vehicleid === location.vehicleid);
-                if (v) {
-                    vehiclesToDisplay.push({ ...v, location: location });
+                if (!users) {
+                    throw new Error("Users undefined");
                 }
-            });
+                const user = users.find(user => user.userid === userId);
+                if (!user) {
+                    throw new Error("Could not find user");
+                }
+                const vehiclesToDisplay: Vehicle[] = [];
+                locations.forEach(location => {
+                    if (!location.lat || !location.lon) {
+                        return;
+                    }
 
-            setLocations(locations);
-            setVehicles(vehiclesToDisplay);
+                    const v = user.vehicles.find(vehicle => vehicle.vehicleid === location.vehicleid);
+                    if (v) {
+                        vehiclesToDisplay.push({ ...v, location: location });
+                    }
+                });
+
+                setLocations(locations);
+                setVehicles(vehiclesToDisplay);
+            } catch (e: any) {
+                enqueueSnackbar(e.message, {variant: "error"});
+            }
         };
 
         if (userId && users) {

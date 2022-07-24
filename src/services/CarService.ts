@@ -54,7 +54,7 @@ export interface GetVehicleLocationsResponses {
 const GetUsersWithVehicles = async (): Promise<User[]> => {
     const response = await axios.get<GetUsersResponse>('http://mobi.connectedcar360.net/api/?op=list');
     if (response.status !== 200) {
-        console.log('could not get response');
+        throw new Error("Couldn't get user list");
     }
 
     return response.data.data.filter(obj => obj && Object.keys(obj).length !== 0) as User[];
@@ -63,7 +63,7 @@ const GetUsersWithVehicles = async (): Promise<User[]> => {
 const GetVehicleLocations = async (userId: number): Promise<VehicleLocation[]> => {
     const response = await axios.get<GetVehicleLocationsResponses>(`http://mobi.connectedcar360.net/api/?op=getlocations&userid=${userId}`);
     if (response.status !== 200) {
-        console.log('could not get response');
+        throw new Error("Couldn't get locations");
     }
 
     return response.data.data;
