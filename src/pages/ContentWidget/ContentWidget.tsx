@@ -7,8 +7,6 @@ const ContentWidget = () => {
     const { loading } = useUserProvider();
 
     return <Container disableGutters maxWidth="xs" sx={{
-        position: "absolute",
-        p: 1,
         height: "100vh",
         overflow: "auto",
         zIndex: "1000"

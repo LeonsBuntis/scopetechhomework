@@ -23,6 +23,10 @@ export const LocationProvider = (props: PropsWithChildren<{}>) => {
             setLocations(locations);
         };
 
+        if (!userId) {
+            return;
+        }
+        
         loadLocations(userId)
             .catch(e => {
                 enqueueSnackbar(e.message, { variant: "error" });

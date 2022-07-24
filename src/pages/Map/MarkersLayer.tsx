@@ -1,20 +1,19 @@
-import { useEffect, useState } from "react";
-import CarService, { User, VehicleLocation } from "../../services/CarService";
-import { Popup, useMap, useMapEvents } from 'react-leaflet';
+import { useEffect, useRef } from "react";
+import { User } from "../../services/CarService";
+import { Popup, useMap } from 'react-leaflet';
 import { LatLngTuple } from "leaflet";
 import CarMarker from "./components/VehicleMarker";
 import VehicleCard from "../../components/VehicleCard";
 import { useMappedParams } from "../../hooks/useMappedParams";
 import { useLocationProvider } from "../../contexts/LocationsContext";
+import { useSnackbar } from "notistack";
 
 const MarkersLayer = ({ currentUser }: {
     currentUser: User
 }) => {
+    const map = useMap();
     const { vehicleId } = useMappedParams();
     const { locations } = useLocationProvider();
-
-    const map = useMap();
-    const mapEvents = useMapEvents({});
 
     useEffect(() => {
         if (!locations) {
@@ -43,7 +42,9 @@ const MarkersLayer = ({ currentUser }: {
 
     return <>{
         locations &&
+        locations.length > 0 &&
         currentUser.vehicles &&
+        currentUser.vehicles.length > 0 &&
         currentUser.vehicles.map(vehicle => {
             const location = locations.find(l => l.vehicleid === vehicle.vehicleid);
 
@@ -54,11 +55,6 @@ const MarkersLayer = ({ currentUser }: {
                     locationLat={location.lat}
                     locationLon={location.lon}
                     vehicleId={vehicle.vehicleid} >
-                    {
-                        <Popup>
-                            <VehicleCard vehicle={vehicle} location={location} />
-                        </Popup>
-                    }
                 </CarMarker>
         })
     }</>
