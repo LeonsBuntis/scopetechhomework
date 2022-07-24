@@ -22,14 +22,24 @@ const MarkersLayer = ({ currentUser }: {
         if (!locations) {
             return;
         }
-
-        if (locations.length > 1) {
-            const bonds: LatLngTuple[] = locations.map(loc => [loc.lat, loc.lon] as LatLngTuple);
-            map.fitBounds(bonds, { maxZoom: 16 });
+        
+        if (!currentVehicle) {
+            if (locations.length > 1) {
+                const bonds: LatLngTuple[] = locations.map(loc => [loc.lat, loc.lon] as LatLngTuple);
+                map.fitBounds(bonds, { maxZoom: 15 });
+            } else {
+                map.setView([locations[0].lat, locations[0].lon], 15);
+            }
         } else {
-            map.setView([locations[0].lat, locations[0].lon], 16);
+            const currentVehicleLocation = locations.find(loc => currentVehicle.vehicleid === loc.vehicleid);
+            if (!currentVehicleLocation) {
+                return;
+            }
+
+            map.setView([currentVehicleLocation.lat, currentVehicleLocation.lon], 15);
         }
-    }, [locations]);
+
+    }, [locations, currentVehicle]);
 
     useEffect(() => {
         const loadLocations = async (userId: number) => {
