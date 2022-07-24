@@ -22,7 +22,7 @@ const MarkersLayer = ({ currentUser }: {
         if (!locations) {
             return;
         }
-        
+
         if (!currentVehicle) {
             if (locations.length > 1) {
                 const bonds: LatLngTuple[] = locations.map(loc => [loc.lat, loc.lon] as LatLngTuple);
@@ -43,18 +43,20 @@ const MarkersLayer = ({ currentUser }: {
 
     useEffect(() => {
         const loadLocations = async (userId: number) => {
-            try {
-                const locations = await CarService.GetVehicleLocations(userId);
-                setLocations(locations);
-            } catch (e: any) {
-                enqueueSnackbar(e.message, { variant: "error" });
-            }
+            const locations = await CarService.GetVehicleLocations(userId);
+            setLocations(locations);
         };
 
-        loadLocations(currentUser.userid);
+        loadLocations(currentUser.userid)
+            .catch(e => {
+                enqueueSnackbar(e.message, { variant: "error" });
+            });
 
         const intervalId = setInterval(() => {
-            loadLocations(currentUser.userid);
+            loadLocations(currentUser.userid)
+                .catch(e => {
+                    enqueueSnackbar("Couldn't get new location", { variant: "warning" });
+                });
         }, 1000 * 60);
 
         return () => {

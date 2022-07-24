@@ -1,11 +1,11 @@
 import { createContext, PropsWithChildren, useContext, useEffect, useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useMappedParams } from "../hooks/useMappedParams";
-import CarService, { User, Vehicle, VehicleLocation } from "../services/CarService";
-import { SnackbarProvider, VariantType, useSnackbar } from 'notistack';
+import CarService, { User, Vehicle } from "../services/CarService";
+import { useSnackbar } from 'notistack';
 
 export interface DataContextProps {
     users: User[] | undefined,
+    setUsers: (users: User[]) => void,
     currentUser: User | undefined,
     currentVehicle: Vehicle | undefined,
     setCurrentUserId: (userId: number | undefined) => void,
@@ -50,20 +50,14 @@ export const DataProvider = (props: PropsWithChildren<{}>) => {
         setCurrentVehicle(newVehicle);
     }, [currentUser, vehicleId]);
 
-    useEffect(() => {
-        (async () => {
-            try {
-                const response = await CarService.GetUsersWithVehicles();
-                setUsers(response);
-            } catch (e: any) {
-                enqueueSnackbar(e.message, { variant: "error" });
-            }
-        })();
-
-        return () => { };
-    }, []);
-
-    return <DataContext.Provider value={{ users, currentUser, currentVehicle, setCurrentUserId, setCurrentVehicleId }} {...props} />;
+    return <DataContext.Provider value={{
+        users,
+        setUsers,
+        currentUser,
+        currentVehicle,
+        setCurrentUserId,
+        setCurrentVehicleId
+    }} {...props} />;
 }
 
 export const useDataProvider = (): DataContextProps => {

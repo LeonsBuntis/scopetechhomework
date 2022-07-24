@@ -1,11 +1,33 @@
-import { Container, List, Stack, Link, Button } from "@mui/material";
-import { Box } from "@mui/system";
-import { Link as RouterLink, Outlet } from "react-router-dom";
-import { useNavigate } from 'react-router-dom';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import { Container, Stack } from "@mui/material";
+import { useSnackbar } from "notistack";
+import { useEffect, useState } from "react";
+import { Outlet } from "react-router-dom";
+import { useDataProvider } from "../../contexts/DataContext";
+import CarService from "../../services/CarService";
+import LoadingBackdrop from "../../components/LoadingBackdrop";
 
 const ContentWidget = () => {
-    const navigate = useNavigate();
+    const { setUsers } = useDataProvider();
+    const { enqueueSnackbar } = useSnackbar();
+
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        (async () => {
+            try {
+                setLoading(true);
+                const response = await CarService.GetUsersWithVehicles();
+                setUsers(response);
+                setTimeout(() => {
+                    setLoading(false);
+                }, 700);
+            } catch (e: any) {
+                enqueueSnackbar(e.message, { variant: "error" });
+            }
+        })();
+
+        return () => { };
+    }, []);
 
     return <Container disableGutters maxWidth="xs" sx={{
         position: "absolute",
@@ -20,7 +42,11 @@ const ContentWidget = () => {
             borderRadius: 1,
             p: 2
         }}>
-            <Outlet />
+            {
+                loading
+                    ? <LoadingBackdrop show={loading} />
+                    : <Outlet />
+            }
         </Stack >
     </Container>
 }
