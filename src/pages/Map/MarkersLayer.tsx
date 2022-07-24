@@ -1,12 +1,10 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { User } from "../../services/CarService";
-import { Popup, useMap } from 'react-leaflet';
+import { useMap } from 'react-leaflet';
 import { LatLngTuple } from "leaflet";
-import CarMarker from "./components/VehicleMarker";
-import VehicleCard from "../../components/VehicleCard";
+import CarMarker from "./components/VehicleMarker/VehicleMarker";
 import { useMappedParams } from "../../hooks/useMappedParams";
 import { useLocationProvider } from "../../contexts/LocationsContext";
-import { useSnackbar } from "notistack";
 
 const MarkersLayer = ({ currentUser }: {
     currentUser: User

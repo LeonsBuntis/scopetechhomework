@@ -7,7 +7,7 @@ import { useUserProvider } from '../../contexts/UserContext';
 import { useEffect, useState } from 'react';
 import { User } from '../../services/CarService';
 import { useMappedParams } from '../../hooks/useMappedParams';
-import VehicleInfo from '../../components/VehicleInfo';
+import VehicleInfo from './components/VehicleInfo';
 
 export const Map = () => {
     const { users } = useUserProvider();

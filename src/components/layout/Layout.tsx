@@ -1,12 +1,12 @@
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
-import { useState } from 'react';
+import { Container, Stack } from '@mui/material';
 
 const mdTheme = createTheme();
 
 const Layout = ({ children }: {
-    children: JSX.Element | JSX.Element[] 
+    children: JSX.Element | JSX.Element[]
 }) => {
     return (
         <ThemeProvider theme={mdTheme}>
@@ -26,7 +26,11 @@ const Layout = ({ children }: {
                         p: 0
                     }}
                 >
-                    {children}
+                    <Container disableGutters maxWidth={false}>
+                        <Stack direction="row">
+                            {children}
+                        </Stack>
+                    </Container>
                 </Box>
             </Box>
         </ThemeProvider>

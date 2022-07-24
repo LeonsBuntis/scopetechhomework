@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Marker } from 'react-leaflet';
 import L from "leaflet";
 import { renderToString } from 'react-dom/server';
-import { useCustomNavigate } from '../../../hooks/useCustomNavigate';
+import { useCustomNavigate } from '../../../../hooks/useCustomNavigate';
 
 export type VehicleMarkerProps = {
     markerColor: string,

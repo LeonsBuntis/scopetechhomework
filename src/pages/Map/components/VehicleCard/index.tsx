@@ -1,8 +1,8 @@
 import { Card, CardMedia, CardContent, Typography, Divider } from "@mui/material";
 import { GetColorName } from "hex-color-to-color-name";
 import { useState, useEffect } from "react";
-import { Vehicle, VehicleLocation } from "../../services/CarService";
-import NominatimService from "../../services/NominatimService/NominatimService";
+import { Vehicle, VehicleLocation } from "../../../../services/CarService";
+import NominatimService from "../../../../services/NominatimService/NominatimService";
 
 const VehicleCard = ({ vehicle, location }: {
     vehicle: Vehicle,

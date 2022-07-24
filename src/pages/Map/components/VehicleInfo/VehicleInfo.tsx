@@ -1,10 +1,10 @@
 import { Container, Stack } from "@mui/material"
-import VehicleCard from "../VehicleCard"
-import { Vehicle, VehicleLocation } from "../../services/CarService";
-import { useMappedParams } from "../../hooks/useMappedParams";
-import { useUserProvider } from "../../contexts/UserContext";
-import { useLocationProvider } from "../../contexts/LocationsContext";
 import { useEffect, useState } from "react";
+import VehicleCard from "../VehicleCard";
+import { useLocationProvider } from "../../../../contexts/LocationsContext";
+import { useUserProvider } from "../../../../contexts/UserContext";
+import { useMappedParams } from "../../../../hooks/useMappedParams";
+import { Vehicle, VehicleLocation } from "../../../../services/CarService";
 
 export const VehicleInfo = () => {
     const { vehicleId, userId } = useMappedParams();
