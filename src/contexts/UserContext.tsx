@@ -22,11 +22,12 @@ export const UserProvider = (props: PropsWithChildren<{}>) => {
                 setLoading(true);
                 const response = await CarService.GetUsersWithVehicles();
                 setUsers(response);
+            } catch (e: any) {
+                enqueueSnackbar(e.message, { variant: "error" });
+            } finally {
                 setTimeout(() => {
                     setLoading(false);
                 }, 700);
-            } catch (e: any) {
-                enqueueSnackbar(e.message, { variant: "error" });
             }
         };
 

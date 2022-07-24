@@ -29,7 +29,7 @@ const Vehicles = () => {
                 {currentUser.vehicles.map(vehicle => <VehicleListItem vehicle={vehicle} key={vehicle.vehicleid} />)}
             </List>
         </>
-        : <></>
+        : <>Couldn't load vehicles</>
 }
 
 export default Vehicles;

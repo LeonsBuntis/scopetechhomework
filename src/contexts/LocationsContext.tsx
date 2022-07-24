@@ -21,17 +21,20 @@ export const LocationProvider = (props: PropsWithChildren<{}>) => {
     useEffect(() => {
         const loadLocations = async (userId: number) => {
             setLoading(true);
-            const locations = await CarService.GetVehicleLocations(userId);
-            setLocations(locations.filter(loc => loc.lat && loc.lon));
-            setTimeout(() => {
-                setLoading(false);
-            }, 700);
+            try {
+                const locations = await CarService.GetVehicleLocations(userId);
+                setLocations(locations.filter(loc => loc.lat && loc.lon));
+            } finally {
+                setTimeout(() => {
+                    setLoading(false);
+                }, 700);
+            }
         };
 
         if (!userId) {
             return;
         }
-        
+
         loadLocations(userId)
             .catch(e => {
                 enqueueSnackbar(e.message, { variant: "error" });
