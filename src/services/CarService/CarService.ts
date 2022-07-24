@@ -1,43 +1,12 @@
-import Axios from 'axios';
-import { setupCache } from 'axios-cache-interceptor';
+import { HttpClient as axios } from '../HttpClient';
+import { User } from './types/User';
+import { VehicleLocation } from './types/VehicleLocation';
 
-const axios = setupCache(Axios);
-
-export interface Vehicle {
-    vehicleid: number;
-    color: string;
-    foto: string;
-    make: string;
-    model: string;
-    vin: string;
-    year: number;
-
-    location: VehicleLocation;
-}
-
-export interface Owner {
-    foto: string;
-    name: string;
-    surname: string;
-}
-
-export interface User {
-    userid: number;
-    owner: Owner;
-    vehicles: Vehicle[];
-}
-
-export interface GetUsersResponse {
+interface GetUsersResponse {
     data: User[];
 }
 
-export interface VehicleLocation {
-    vehicleid: number;
-    lat: number;
-    lon: number;
-}
-
-export interface GetVehicleLocationsResponses {
+interface GetVehicleLocationsResponses {
     data: VehicleLocation[];
 }
 

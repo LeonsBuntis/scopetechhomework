@@ -3,7 +3,7 @@ import { GetColorName } from "hex-color-to-color-name";
 import { useState, useEffect } from "react";
 import { useDataProvider } from "../../contexts/DataContext";
 import CarService, { Vehicle, VehicleLocation } from "../../services/CarService";
-import NominatimService from "../../services/NominatimService";
+import NominatimService from "../../services/NominatimService/NominatimService";
 
 const VehicleCard = ({ vehicle }: {
     vehicle: Vehicle
