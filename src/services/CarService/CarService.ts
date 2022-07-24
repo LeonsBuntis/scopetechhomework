@@ -21,7 +21,7 @@ const GetUsersWithVehicles = async (): Promise<User[]> => {
             }
         }
     });
-    if (response.status !== 200) {
+    if (response.status !== 200 || response.headers['content-type'] !== "application/json") {
         throw new Error("Couldn't get user list");
     }
 
@@ -39,7 +39,7 @@ const GetVehicleLocations = async (userId: number): Promise<VehicleLocation[]> =
             }
         }
     });
-    if (response.status !== 200) {
+    if (response.status !== 200 || response.headers['content-type'] !== "application/json") {
         throw new Error("Couldn't get locations");
     }
 
