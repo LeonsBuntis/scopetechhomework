@@ -1,15 +1,17 @@
 import { useEffect, useState } from "react";
 import { useDataProvider } from "../../contexts/DataContext";
-import CarService, { VehicleLocation } from "../../services/CarService";
+import CarService, { User, VehicleLocation } from "../../services/CarService";
 import { Popup, useMap, useMapEvents } from 'react-leaflet';
 import { LatLngTuple } from "leaflet";
 import CarMarker from "./components/VehicleMarker";
 import { useSnackbar } from "notistack";
 import VehicleCard from "../../components/VehicleCard";
 
-const MarkersLayer = () => {
+const MarkersLayer = ({ currentUser }: {
+    currentUser: User
+}) => {
     const { enqueueSnackbar } = useSnackbar();
-    const { currentUser, currentVehicle } = useDataProvider();
+    const { currentVehicle } = useDataProvider();
 
     const map = useMap();
     const mapEvents = useMapEvents({});
@@ -34,24 +36,28 @@ const MarkersLayer = () => {
             try {
                 const locations = await CarService.GetVehicleLocations(userId);
 
+                console.log('location loaded');
+                
                 setLocations(locations);
             } catch (e: any) {
                 enqueueSnackbar(e.message, { variant: "error" });
             }
         };
 
-        if (currentUser && currentUser.userid) {
-            loadLocations(currentUser.userid);
-        }
+        loadLocations(currentUser.userid);
 
-        return () => { };
+        const intervalId = setInterval(() => {
+            loadLocations(currentUser.userid);
+        }, 1000 * 60);
+
+        return () => {
+            clearInterval(intervalId);
+        };
     }, [currentUser]);
 
     return <>{
         locations &&
-        currentUser &&
         currentUser.vehicles &&
-        currentUser.vehicles.length > 0 &&
         currentUser.vehicles.map(vehicle => {
             const location = locations.find(l => l.vehicleid === vehicle.vehicleid);
 
