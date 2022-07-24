@@ -17,8 +17,6 @@ export const UserProvider = (props: PropsWithChildren<{}>) => {
     const [users, setUsers] = useState<User[] | undefined>(undefined);
 
     useEffect(() => {
-        console.log('load users');
-
         const loadUsers = async () => {
             try {
                 setLoading(true);
