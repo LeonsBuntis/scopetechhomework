@@ -11,7 +11,7 @@ const MarkersLayer = ({ currentUser }: {
     currentUser: User
 }) => {
     const { enqueueSnackbar } = useSnackbar();
-    const { currentVehicle } = useDataProvider();
+    const { currentVehicleId } = useDataProvider();
 
     const map = useMap();
     const mapEvents = useMapEvents({});
@@ -22,6 +22,8 @@ const MarkersLayer = ({ currentUser }: {
         if (!locations) {
             return;
         }
+
+        const currentVehicle = currentUser.vehicles?.find(vehicle => vehicle.vehicleid === currentVehicleId);
 
         if (!currentVehicle) {
             if (locations.length > 1) {
@@ -39,7 +41,7 @@ const MarkersLayer = ({ currentUser }: {
             map.setView([currentVehicleLocation.lat, currentVehicleLocation.lon], 15);
         }
 
-    }, [locations, currentVehicle]);
+    }, [locations, currentVehicleId]);
 
     useEffect(() => {
         const loadLocations = async (userId: number) => {
@@ -78,8 +80,7 @@ const MarkersLayer = ({ currentUser }: {
                     locationLon={location.lon}
                     vehicleId={vehicle.vehicleid} >
                     {
-                        currentVehicle &&
-                        currentVehicle.vehicleid === vehicle.vehicleid &&
+                        currentVehicleId === vehicle.vehicleid &&
                         <Popup>
                             <VehicleCard vehicle={vehicle} location={location} />
                         </Popup>

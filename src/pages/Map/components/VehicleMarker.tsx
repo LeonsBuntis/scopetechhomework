@@ -1,10 +1,10 @@
 import './VehicleMarker.css';
 
 import { useEffect, useMemo, useState } from "react";
-import { useDataProvider } from "../../../contexts/DataContext";
 import { Marker } from 'react-leaflet';
 import L from "leaflet";
 import { renderToString } from 'react-dom/server';
+import { useCustomNavigate } from '../../../hooks/useCustomNavigate';
 
 export type VehicleMarkerProps = {
     markerColor: string,
@@ -15,8 +15,7 @@ export type VehicleMarkerProps = {
 }
 
 const VehicleMarker = (props: VehicleMarkerProps) => {
-
-    const { setCurrentVehicleId } = useDataProvider();
+    const { navigateToVehicle } = useCustomNavigate();
 
     const createDivIcon = (color: string, selected: boolean = false) => L.divIcon({
         html: renderToString(<span className="material-icons" style={{ color: color, fontSize: 60 }} aria-hidden="true">room</span>),
@@ -41,7 +40,7 @@ const VehicleMarker = (props: VehicleMarkerProps) => {
         eventHandlers={{
             click: e => {
                 console.log('marker clicked');
-                setCurrentVehicleId(props.vehicleId);
+                navigateToVehicle(props.vehicleId);
             }
         }}>
         {props.children}

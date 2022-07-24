@@ -1,62 +1,35 @@
 import { createContext, PropsWithChildren, useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useMappedParams } from "../hooks/useMappedParams";
-import CarService, { User, Vehicle } from "../services/CarService";
-import { useSnackbar } from 'notistack';
+import { User, Vehicle } from "../services/CarService";
 
 export interface DataContextProps {
     users: User[] | undefined,
     setUsers: (users: User[]) => void,
-    currentUser: User | undefined,
-    currentVehicle: Vehicle | undefined,
-    setCurrentUserId: (userId: number | undefined) => void,
-    setCurrentVehicleId: (userId: number | undefined) => void
+    currentUserId: number | undefined,
+    currentVehicleId: number | undefined
 }
 
 const DataContext = createContext<DataContextProps | undefined>(undefined);
 
 export const DataProvider = (props: PropsWithChildren<{}>) => {
 
-    const { enqueueSnackbar } = useSnackbar();
-
-    const [userId, setCurrentUserId] = useState<number | undefined>(undefined);
-    const [vehicleId, setCurrentVehicleId] = useState<number | undefined>(undefined);
+    const [userId, setUserId] = useState<number | undefined>(undefined);
+    const [vehicleId, setVehicleId] = useState<number | undefined>(undefined);
 
     const [users, setUsers] = useState<User[] | undefined>(undefined);
 
     const params = useMappedParams();
     useEffect(() => {
-        setCurrentUserId(params.userId);
-        setCurrentVehicleId(params.vehicleId);
+        setUserId(params.userId);
+        setVehicleId(params.vehicleId);
     }, [params]);
-
-    const findUser = (users: User[] | undefined, userId: number | undefined) => {
-        return users?.find(u => u.userid == userId);
-    }
-
-    const findVehicle = (vehicleId: number | undefined) => {
-        return currentUser?.vehicles?.find(v => v.vehicleid === vehicleId);
-    }
-
-    const [currentUser, setCurrentUser] = useState<User | undefined>(findUser(users, userId));
-    const [currentVehicle, setCurrentVehicle] = useState<Vehicle | undefined>(findVehicle(vehicleId));
-
-    useEffect(() => {
-        const newUser = findUser(users, userId);
-        setCurrentUser(newUser);
-    }, [users, userId]);
-
-    useEffect(() => {
-        const newVehicle = findVehicle(vehicleId);
-        setCurrentVehicle(newVehicle);
-    }, [currentUser, vehicleId]);
 
     return <DataContext.Provider value={{
         users,
         setUsers,
-        currentUser,
-        currentVehicle,
-        setCurrentUserId,
-        setCurrentVehicleId
+        currentUserId: userId,
+        currentVehicleId: vehicleId
     }} {...props} />;
 }
 

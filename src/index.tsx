@@ -24,6 +24,7 @@ root.render(
 
           <Route path="users" element={<Users />} />
           <Route path="users/:userId">
+            <Route path="" element={<Navigate to="vehicles" />} />
             <Route path="vehicles" element={<Vehicles />} />
             <Route path="vehicles/:vehicleId" element={<Vehicles />} />
           </Route>
