@@ -2,7 +2,7 @@ import { Card, CardMedia, CardContent, Typography, Divider } from "@mui/material
 import { GetColorName } from "hex-color-to-color-name";
 import { useState, useEffect } from "react";
 import { Vehicle, VehicleLocation } from "../../../../services/VehicleService";
-import NominatimService from "../../../../services/NominatimService/NominatimService";
+import NominatimService from "../../../../services/NominatimService";
 
 export const VehicleCard = ({ vehicle, location }: {
     vehicle: Vehicle,
