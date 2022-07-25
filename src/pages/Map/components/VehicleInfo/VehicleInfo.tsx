@@ -4,7 +4,7 @@ import VehicleCard from "../VehicleCard";
 import { useLocationProvider } from "../../../../contexts/LocationsContext";
 import { useUserProvider } from "../../../../contexts/UserContext";
 import { useMappedParams } from "../../../../hooks/useMappedParams";
-import { Vehicle, VehicleLocation } from "../../../../services/CarService";
+import { Vehicle, VehicleLocation } from "../../../../services/VehicleService";
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { useCustomNavigate } from "../../../../hooks/useCustomNavigate";

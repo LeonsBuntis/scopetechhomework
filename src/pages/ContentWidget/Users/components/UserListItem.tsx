@@ -1,5 +1,5 @@
 import { ListItem, ListItemButton, ListItemAvatar, Avatar, ListItemText, Divider } from "@mui/material";
-import { User } from "../../../../services/CarService";
+import { User } from "../../../../services/VehicleService";
 import { Link as RouterLink } from "react-router-dom";
 
 export const UserListItem = ({ user }: { user: User }): JSX.Element => {

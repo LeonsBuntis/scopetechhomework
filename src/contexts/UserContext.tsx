@@ -1,6 +1,6 @@
 import { useSnackbar } from "notistack";
 import { createContext, PropsWithChildren, useContext, useEffect, useState } from "react";
-import CarService, { User } from "../services/CarService";
+import VehicleService, { User } from "../services/VehicleService";
 import { useLoadingProvider } from "./LoadingContext";
 
 export interface UserContextProps {
@@ -20,7 +20,7 @@ export const UserProvider = (props: PropsWithChildren<{}>) => {
         const loadUsers = async () => {
             try {
                 setLoading(true);
-                const response = await CarService.GetUsersWithVehicles();
+                const response = await VehicleService.GetUsersWithVehicles();
                 setUsers(response);
             } catch (e: any) {
                 enqueueSnackbar(e.message, { variant: "error" });

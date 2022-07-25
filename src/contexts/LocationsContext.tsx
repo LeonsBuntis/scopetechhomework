@@ -1,7 +1,7 @@
 import { useSnackbar } from "notistack";
 import { createContext, PropsWithChildren, useContext, useEffect, useState } from "react";
 import { useMappedParams } from "../hooks/useMappedParams";
-import CarService, { VehicleLocation } from "../services/CarService";
+import VehicleService, { VehicleLocation } from "../services/VehicleService";
 import { useLoadingProvider } from "./LoadingContext";
 
 export interface LocationContextProps {
@@ -22,7 +22,7 @@ export const LocationProvider = (props: PropsWithChildren<{}>) => {
         const loadLocations = async (userId: number) => {
             setLoading(true);
             try {
-                const locations = await CarService.GetVehicleLocations(userId);
+                const locations = await VehicleService.GetVehicleLocations(userId);
                 setLocations(locations.filter(loc => loc.lat && loc.lon));
             } finally {
                 setTimeout(() => {

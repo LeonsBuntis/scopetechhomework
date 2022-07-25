@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useUserProvider } from "../../../contexts/UserContext";
 import { VehicleListItem } from "./components/VehicleListItem";
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import { User } from "../../../services/CarService";
+import { User } from "../../../services/VehicleService";
 import { useCustomNavigate } from "../../../hooks/useCustomNavigate";
 import { useMappedParams } from "../../../hooks/useMappedParams";
 

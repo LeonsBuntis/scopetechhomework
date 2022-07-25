@@ -12,17 +12,14 @@ interface GetVehicleLocationsResponses {
 
 const GetUsersWithVehicles = async (): Promise<User[]> => {
     const response = await axios.get<GetUsersResponse>('http://mobi.connectedcar360.net/api/?op=list', {
+        id: 'user-list',
         cache: {
-            ttl: 1000 * 60 * 5,
-            cachePredicate: {
-                containsHeaders: {
-                    'content-type': (header) => { return header === "application/json"; }
-                }
-            }
-        }
+            ttl: 1000 * 60 * 5
+        },
     });
 
     if (response.status !== 200 || response.headers['content-type'] !== "application/json") {
+        axios.storage.remove('user-list');
         throw new Error("Couldn't get user list");
     }
 
@@ -31,26 +28,23 @@ const GetUsersWithVehicles = async (): Promise<User[]> => {
 
 const GetVehicleLocations = async (userId: number): Promise<VehicleLocation[]> => {
     const response = await axios.get<GetVehicleLocationsResponses>(`http://mobi.connectedcar360.net/api/?op=getlocations&userid=${userId}`, {
+        id: `getlocations-${userId}`,
         cache: {
             ttl: 1000 * 30,
-            cachePredicate: {
-                containsHeaders: {
-                    'content-type': (header) => { return header === "application/json"; }
-                }
-            }
         }
     });
 
     if (response.status !== 200 || response.headers['content-type'] !== "application/json") {
+        axios.storage.remove(`getlocations-${userId}`);
         throw new Error("Couldn't get locations");
     }
 
     return response.data.data.filter(obj => obj && Object.keys(obj).length !== 0);
 };
 
-const CarService = {
+const VehicleService = {
     GetUsersWithVehicles,
     GetVehicleLocations
 };
 
-export default CarService;
+export default VehicleService;

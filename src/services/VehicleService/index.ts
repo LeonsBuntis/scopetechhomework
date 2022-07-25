@@ -1,6 +1,6 @@
-import CarService from "./CarService";
+import VehicleService from "./VehicleService";
 
-export default CarService; 
+export default VehicleService; 
 
 export type { Owner } from "./types/Owner";
 export type { User } from "./types/User";

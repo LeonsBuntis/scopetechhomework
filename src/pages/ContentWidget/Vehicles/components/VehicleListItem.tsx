@@ -2,7 +2,7 @@ import { ListItem, ListItemButton, ListItemAvatar, Avatar, ListItemText, Typogra
 import { GetColorName } from "hex-color-to-color-name";
 import { useCustomNavigate } from "../../../../hooks/useCustomNavigate";
 import { useMappedParams } from "../../../../hooks/useMappedParams";
-import { Vehicle } from "../../../../services/CarService";
+import { Vehicle } from "../../../../services/VehicleService";
 
 export const VehicleListItem = ({ vehicle }: {
     vehicle: Vehicle

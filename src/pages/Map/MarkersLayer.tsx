@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { User } from "../../services/CarService";
+import { User } from "../../services/VehicleService";
 import { useMap } from 'react-leaflet';
 import { LatLngTuple } from "leaflet";
 import CarMarker from "./components/VehicleMarker/VehicleMarker";
